@@ -1,6 +1,11 @@
 package kata1;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class Person {
@@ -22,8 +27,10 @@ public class Person {
     }
     
     public int getAge(){
-        Calendar today = GregorianCalendar.getInstance();
-        return (int) (millisecondsToYear(today.getTimeInMillis() - birthdate.getTimeInMillis()));
+        Date date = new Date();
+        ZoneId timeZone = ZoneId.systemDefault();
+        LocalDate getLocalDate = date.toInstant().atZone(timeZone).toLocalDate();
+        return (int) (Period.between(LocalDate.ofInstant(birthdate.toInstant(), ZoneId.systemDefault()), getLocalDate).getYears());
     }
     
     private long millisecondsToYear (long milles){
